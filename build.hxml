@@ -1,0 +1,6 @@
+# nb this is only here to trigger vshaxe extension in vs code
+-cp src
+--library lime
+--library peote-view
+--library peote-text
+--cpp bin/cpp

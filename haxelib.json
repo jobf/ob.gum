@@ -1,0 +1,15 @@
+{
+    "name": "ob.gum",
+    "url" : "https://github.com/jobf/ob.gum/",
+    "license": "MIT",
+    "tags": ["wrapper", "game-loop", "peote-view","peote-text", "lime"],
+    "description": "light application loop wrapper",
+    "version": "0.0.1",
+    "releasenote": "not released",
+    "contributors": ["jobf"],
+    "classPath": "src",
+    "dependencies": {
+        "lime": "",
+        "peote-view": ""
+    }
+}
