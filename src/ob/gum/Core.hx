@@ -46,6 +46,7 @@ class Gum {
 	public function onUpdate(deltaTime:Int):Void {
 		if (!isUpdating)
 			return;
+		loop.onUpdate(deltaTime);
 		elapsedMsSinceLastTick += deltaTime;
 		if (elapsedMsSinceLastTick >= tickDurationMs) {
 			elapsedMsSinceLastTick = 0;
@@ -92,6 +93,7 @@ typedef Tick = Int;
 
 interface ILoop {
 	function onInit(gum:Gum):Void;
+	function onUpdate(deltaMs:Int):Void;
 	function onTick(tick:Tick):IsRedrawRequired;
 	function onDraw(tick:Tick):Void;
 	function onKeyDown(code:KeyCode, modifier:KeyModifier):Void;
@@ -127,6 +129,8 @@ class LoadingLoop implements ILoop {
 		this.gum = gum;
 		trace('LoadingLoop onInit');
 	}
+
+	public function onUpdate(deltaMs:Int) {}
 
 	public function onDraw(tick:Int) {}
 

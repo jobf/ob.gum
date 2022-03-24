@@ -42,6 +42,8 @@ class PeoteViewLoop implements ILoop {
 		// }
 	}
 
+	public function onUpdate(deltaMs:Int) {}
+
 	public function onTick(tick:Int):IsRedrawRequired {
 		return false;
 	}
