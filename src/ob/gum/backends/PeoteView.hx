@@ -66,12 +66,13 @@ class PeoteViewLoop implements ILoop {
 		peoteView.resize(width, height);
 	}
 
-	public function getFrameBufferDisplay(x:Int, y:Int, w:Int, h:Int):FrameBuffer {
+	public function getFrameBufferDisplay(x:Int, y:Int, w:Int, h:Int, isPersistentFrameBuffer:Bool):FrameBuffer {
 		var display = new Display(x, y, w, h);
 		peoteView.addDisplay(display);
 		peoteView.renderToTexture(display, 0);
 		peoteView.addFramebufferDisplay(display);
 		var framebuffer = new Texture(w, h);
+		framebuffer.clearOnRenderInto = !isPersistentFrameBuffer;
 		display.setFramebuffer(framebuffer);
 		peoteView.removeDisplay(display);
 		return {display: display, texture: framebuffer};
