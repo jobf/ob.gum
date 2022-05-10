@@ -25,9 +25,14 @@ class Gum {
 			framesPerSecond: 60,
 			drawOnlyWhenRequested: false
 		};
-		tickDurationMs = Math.floor(1000 / this.config.framesPerSecond);
+		setTickDuration(Math.floor(1000 / this.config.framesPerSecond));
 		loop = new LoadingLoop();
 		loop.onInit(this);
+	}
+
+	
+	public function setTickDuration(milliseconds:Int){
+		tickDurationMs = milliseconds;
 	}
 
 	public function toggleUpdate(?setIsUpdatingTo:Bool) {
@@ -37,6 +42,7 @@ class Gum {
 			isUpdating = !isUpdating;
 		}
 	}
+
 
 	public function changeLoop(next:ILoop) {
 		loop = next;
