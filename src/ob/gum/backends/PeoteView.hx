@@ -79,9 +79,10 @@ class PeoteViewLoop implements ILoop {
 	}
 }
 
-typedef FrameBuffer = {
-	texture:Texture,
-	display:Display
+@:structInit
+class FrameBuffer{
+	public var texture:Texture;
+	public var display:Display;
 }
 
 class PaletteExtensions {
