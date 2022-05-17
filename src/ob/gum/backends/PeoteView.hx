@@ -26,20 +26,33 @@ class PeoteViewLoop implements ILoop {
 	public var display(default, null):Display;
 
 	public function new() {}
-
+	var w:Int;
+	var h:Int;
+	var ratio:Float;
 	public function onInit(gum:Gum) {
 		this.gum = gum;
 		peoteView = new PeoteView(gum.window);
-		var w = gum.config.displayWidth == null ? gum.window.width : gum.config.displayWidth;
-		var h = gum.config.displayHeight == null ? gum.window.height : gum.config.displayHeight;
-		var displayWidth = gum.config.displayIsScaled ? gum.window.width : w;
-		var displayHeight = gum.config.displayIsScaled ? gum.window.height : h;
-		display = new Display(0, 0, displayWidth, displayHeight, Color.BLACK);
+		w = gum.config.displayWidth == null ? gum.window.width : gum.config.displayWidth;
+		h = gum.config.displayHeight == null ? gum.window.height : gum.config.displayHeight;
+		ratio = w / h;
+		display = new Display(0, 0, gum.window.width, gum.window.height, Color.BLACK);
+
 		peoteView.addDisplay(display);
 		peoteView.start();
-		// if (gum.config.displayIsScaled) {
-		// todo ! scale display
-		// }
+
+		setZoom();
+	}
+
+	function setZoom(){
+		// h = w * h;
+		var ratio:Float = gum.window.width / gum.window.height;
+		var realRatio:Float = w / h;
+		var scaleY:Bool = realRatio < ratio;
+
+		display.xZoom = Std.int(gum.window.width / w);
+		display.yZoom = Std.int(gum.window.height / h);
+		display.width = gum.window.width;
+		display.height = gum.window.height;
 	}
 
 	public function onUpdate(deltaMs:Int) {}
@@ -64,6 +77,8 @@ class PeoteViewLoop implements ILoop {
 
 	public function onWindowResize(width:Int, height:Int) {
 		peoteView.resize(width, height);
+		// gum.onWindowResize(width, height);
+		setZoom();
 	}
 
 	public function getFrameBufferDisplay(x:Int, y:Int, w:Int, h:Int, isPersistentFrameBuffer:Bool):FrameBuffer {
