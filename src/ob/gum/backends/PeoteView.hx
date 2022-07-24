@@ -26,24 +26,36 @@ class PeoteViewLoop implements ILoop {
 	public var display(default, null):Display;
 
 	public function new() {}
+
 	var w:Int;
 	var h:Int;
 	var ratio:Float;
+
 	public function onInit(gum:Gum) {
 		this.gum = gum;
+		setupPeoteView();
+	}
+
+	function setupPeoteView(){
+		if(peoteView != null){
+			peoteView.stop();
+			peoteView.removeDisplay(display);
+		}
 		peoteView = new PeoteView(gum.window);
 		w = gum.config.displayWidth == null ? gum.window.width : gum.config.displayWidth;
 		h = gum.config.displayHeight == null ? gum.window.height : gum.config.displayHeight;
-		ratio = w / h;
-		display = new Display(0, 0, gum.window.width, gum.window.height, Color.BLACK);
-
+		display = new Display(0, 0, w, h, Color.BLACK);
+		trace('gum.config.displayWidth ${gum.config.displayWidth}\n display.width ${display.width} ratio $ratio');
 		peoteView.addDisplay(display);
 		peoteView.start();
 
-		setZoom();
+		var isScaled = gum.config.displayIsScaled == true ? true : false;
+		if (isScaled){
+			setZoom();
+		}
 	}
 
-	function setZoom(){
+	function setZoom() {
 		// h = w * h;
 		var ratio:Float = gum.window.width / gum.window.height;
 		var realRatio:Float = w / h;
@@ -95,7 +107,7 @@ class PeoteViewLoop implements ILoop {
 }
 
 @:structInit
-class FrameBuffer{
+class FrameBuffer {
 	public var texture:Texture;
 	public var display:Display;
 }
