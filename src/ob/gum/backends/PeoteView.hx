@@ -24,8 +24,10 @@ class PeoteViewLoop implements ILoop {
 
 	public var peoteView(default, null):PeoteView;
 	public var display(default, null):Display;
-
-	public function new() {}
+	public var isPreloadComplete(default, null):Bool;
+	public function new() {
+		isPreloadComplete = false;
+	}
 
 	var w:Int;
 	var h:Int;
@@ -92,18 +94,24 @@ class PeoteViewLoop implements ILoop {
 		// gum.onWindowResize(width, height);
 		setZoom();
 	}
+	
+	public function onPreloadComplete() {
+		trace('onPreloadComplete');
+		isPreloadComplete = true;
+	}
 
 	public function getFrameBufferDisplay(x:Int, y:Int, w:Int, h:Int, isPersistentFrameBuffer:Bool):FrameBuffer {
 		var display = new Display(x, y, w, h);
 		peoteView.addDisplay(display);
 		peoteView.renderToTexture(display, 0);
 		peoteView.addFramebufferDisplay(display);
-		var framebuffer = new Texture(w, h);
-		framebuffer.clearOnRenderInto = !isPersistentFrameBuffer;
-		display.setFramebuffer(framebuffer);
+		var framebufferTexture = new Texture(w, h);
+		framebufferTexture.clearOnRenderInto = !isPersistentFrameBuffer;
+		display.setFramebuffer(framebufferTexture);
 		peoteView.removeDisplay(display);
-		return {display: display, texture: framebuffer};
+		return {display: display, texture: framebufferTexture};
 	}
+
 }
 
 @:structInit

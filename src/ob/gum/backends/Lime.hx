@@ -72,4 +72,9 @@ class App extends Application {
 		super.onWindowResize(width, height);
 		gum.onWindowResize(width, height);
 	}
+
+	override function onPreloadComplete() {
+		super.onPreloadComplete();
+		gum.onPreloadComplete();
+	}
 }

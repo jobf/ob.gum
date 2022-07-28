@@ -14,7 +14,9 @@ class Gum {
 	public var window(default, null):Window;
 
 	var drawNeedsUpdate:Bool = false;
+
 	public var config(default, null):GumConfig;
+
 	var tickDurationMs:Int;
 	var isUpdating:Bool;
 
@@ -30,8 +32,7 @@ class Gum {
 		loop.onInit(this);
 	}
 
-	
-	public function setTickDuration(milliseconds:Int){
+	public function setTickDuration(milliseconds:Int) {
 		tickDurationMs = milliseconds;
 	}
 
@@ -42,7 +43,6 @@ class Gum {
 			isUpdating = !isUpdating;
 		}
 	}
-
 
 	public function changeLoop(next:ILoop) {
 		loop = next;
@@ -93,6 +93,10 @@ class Gum {
 	public function onWindowResize(width:Int, height:Int):Void {
 		loop.onWindowResize(width, height);
 	}
+
+	public function onPreloadComplete() {
+		loop.onPreloadComplete();
+	}
 }
 
 typedef Tick = Int;
@@ -109,6 +113,7 @@ interface ILoop {
 	function onMouseUp(x:Float, y:Float, button:MouseButton):Void;
 	function onMouseScroll(deltaX:Float, deltaY:Float, wheelMode:MouseWheelMode):Void;
 	function onWindowResize(width:Int, height:Int):Void;
+	function onPreloadComplete():Void;
 }
 
 typedef IsRedrawRequired = Bool;
@@ -153,4 +158,6 @@ class LoadingLoop implements ILoop {
 	public function onMouseScroll(deltaX:Float, deltaY:Float, wheelMode:MouseWheelMode) {}
 
 	public function onWindowResize(width:Int, height:Int) {}
+
+	public function onPreloadComplete() {}
 }
